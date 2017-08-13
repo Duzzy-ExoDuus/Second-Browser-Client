@@ -20,5 +20,5 @@ else
 fi
 
 HOST_NAME=com.google.chrome.example.echo
-rm "$TARGET_DIR/com.stark.second-browser-client.json"
+rm "$TARGET_DIR/com.stark.second_browser_client.json"
 echo "Native messaging host $HOST_NAME has been uninstalled."

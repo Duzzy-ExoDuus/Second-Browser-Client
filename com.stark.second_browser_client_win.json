@@ -3,11 +3,11 @@
 // found in the LICENSE file.
 
 {
-  "name": "com.stark.second-browser-client",
+  "name": "com.stark.second_browser_client",
   "description": "Second Browser Chrome Extension Host",
-  "path": "HOST_PATH",
+  "path": "second_browser_client.bat",
   "type": "stdio",
   "allowed_origins": [
-    //"chrome-extension://knldjmfmopnpolahpmmgbagdohdnhkik/"
+    "chrome-extension://gmifjhdfacmogfjggkdghkoplogabfmf/"
   ]
 }

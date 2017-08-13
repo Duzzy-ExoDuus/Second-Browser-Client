@@ -17,7 +17,7 @@ else
   fi
 fi
 
-HOST_NAME=com.stark.second-browser-client
+HOST_NAME=com.stark.second_browser_client
 
 # Create directory to store native messaging host.
 mkdir -p "$TARGET_DIR"
@@ -26,7 +26,7 @@ mkdir -p "$TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 
 # Update host path in the manifest.
-HOST_PATH=$DIR/second-browser-client
+HOST_PATH=$DIR/second_browser_client
 ESCAPED_HOST_PATH=${HOST_PATH////\\/}
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$TARGET_DIR/$HOST_NAME.json"
 
