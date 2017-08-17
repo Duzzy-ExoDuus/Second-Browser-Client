@@ -17,7 +17,10 @@ browser_list = "browsers.json"
 
 # helper to return configured browsers
 def available_browsers():
-  jdata = json.loads(open(browser_list).read())
+  try:
+    jdata = json.loads(open(browser_list).read())
+  except Exception as e:
+    jdata = { "ERROR": "browsers.json not found" }
   return jdata
 
 # Helper function that sends a message to the webapp.
@@ -60,7 +63,7 @@ def sendBrowserList(data):
 def launchBrowserWithURL(data):
   url = data["url"]
   browser = None
-  if "browser" in data and data["browser"] != "None":
+  if "browser" in data and data["browser"] != "None" and data["browser"] != "":
     browser = data["browser"]
   else:
     error = {"ERROR": "No Browser Selected"}
@@ -68,7 +71,7 @@ def launchBrowserWithURL(data):
 
   browsers = available_browsers()
   if browser and browser not in browsers:
-    error = {"ERROR": "Browser Is Not Configured"}
+    error = {"ERROR": "Unable To Launch Browser", "ErrorMessage": browsers }
     send_message(json.dumps(error))
   else:
     browser_launch = browsers[browser]
