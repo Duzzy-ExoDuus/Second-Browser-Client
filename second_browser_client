@@ -4,8 +4,7 @@ import json
 import os
 import struct
 import sys
-import threading
-import Queue
+import subprocess
 
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
@@ -30,7 +29,7 @@ def send_message(message):
   sys.stdout.flush()
 
 # Thread that reads messages from the webapp.
-def receiveMessage():
+def receive_message():
   message_number = 0
   while 1:
     # Read the message length (first 4 bytes).
@@ -59,7 +58,24 @@ def sendBrowserList(data):
   send_message(json.dumps(browsers))
 
 def launchBrowserWithURL(data):
-  print "here"
+  url = data["url"]
+  browser = None
+  if "browser" in data and data["browser"] != "None":
+    browser = data["browser"]
+  else:
+    error = {"ERROR": "No Browser Selected"}
+    send_message(json.dumps(error))
+
+  browsers = available_browsers()
+  if browser and browser not in browsers:
+    error = {"ERROR": "Browser Is Not Configured"}
+    send_message(json.dumps(error))
+  else:
+    browser_launch = browsers[browser]
+    cmd = browser_launch[0] + " " + url
+    return_string = { "launch": browser_launch[0], "url": url }
+    send_message(json.dumps(return_string))
+    subprocess.Popen(cmd, shell=True)
 
 ACTIONS = {
   "BROWSERS": sendBrowserList,
@@ -67,7 +83,7 @@ ACTIONS = {
 }
 
 def Main():
-  receiveMessage()
+  receive_message()
   sys.exit(0)
 
 if __name__ == '__main__':
