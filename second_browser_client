@@ -5,9 +5,10 @@ import os
 import struct
 import sys
 import subprocess
+import time
 
-# On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
-# to avoid unwanted modifications of the input/output streams.
+from os import path
+
 if sys.platform == "win32":
   import os, msvcrt
   msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
@@ -18,9 +19,10 @@ browser_list = "browsers.json"
 # helper to return configured browsers
 def available_browsers():
   try:
-    jdata = json.loads(open(browser_list).read())
+    text = open(browser_list).read()
+    jdata = json.loads(text)
   except Exception as e:
-    jdata = { "ERROR": "browsers.json not found" }
+    jdata = { "ERROR": "unable to open browsers.json" }
   return jdata
 
 # Helper function that sends a message to the webapp.
@@ -31,7 +33,6 @@ def send_message(message):
   sys.stdout.write(message)
   sys.stdout.flush()
 
-# Thread that reads messages from the webapp.
 def receive_message():
   message_number = 0
   while 1:
@@ -55,6 +56,29 @@ def receive_message():
 # Explicity define acceptable messages 
 # Map helper functions
 #
+def addBrowser(data):
+  browsers = available_browsers()
+  if "browser_file" in data:
+    browser_file = data["browser_file"]
+  if "browser_label" in data:
+    browser_label = data["browser_label"]
+  if not browser_file or not browser_label:
+    return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Invalid Input" }
+  elif browser_label in browsers:
+    return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Browser Is Already Added" }
+  else:
+    try:
+      backup_browser_file = "browsers.json.{}".format(time.strftime("%d-%m-%Y"))
+      with open(backup_browser_file, "w") as bbh:
+        json.dump(browsers, bbh)
+      with open(browser_list, "w") as bh:
+        browsers[browser_label] = browser_file
+        json.dump(browsers, bh)
+      return_string = { "response": "SUCCESS" }
+    except Exception as e:
+      return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Unknown Error Occured" }
+
+  send_message(json.dumps(return_string))
 
 def sendBrowserList(data):
   browsers = available_browsers()
@@ -75,14 +99,19 @@ def launchBrowserWithURL(data):
     send_message(json.dumps(error))
   else:
     browser_launch = browsers[browser]
-    cmd = browser_launch[0] + " " + url
-    return_string = { "launch": browser_launch[0], "url": url }
+    cmd = browser_launch + " " + url
+    return_string = { "launch": browser_launch, "url": url }
+
+    if not os.path.exists(browser_launch.replace("\"", "")) and browser_launch.find("MicrosoftEdge") == -1: # stupid microsoft edge
+      return_string =  {"ERROR": "Unable To Launch Browser", "ErrorMessage": "Couldn't locate browser. Is it installed?" }
+
     send_message(json.dumps(return_string))
     subprocess.Popen(cmd, shell=True)
 
 ACTIONS = {
   "BROWSERS": sendBrowserList,
-  "LAUNCH": launchBrowserWithURL
+  "LAUNCH": launchBrowserWithURL,
+  "ADD": addBrowser
 }
 
 def Main():
