@@ -8,6 +8,7 @@ import subprocess
 import time
 
 from os import path
+from shutil import copyfile
 
 if sys.platform == "win32":
   import os, msvcrt
@@ -71,11 +72,10 @@ def addBrowser(data):
     return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Invalid Input" }
   elif browser_label in browsers:
     return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Browser Is Already Added" }
+  elif not os.path.exists(browser_file.replace("\"", "")):
+    return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Couldn't locate browser. Is it installed?" }
   else:
     try:
-      backup_browser_file = "browsers.json.{}".format(time.strftime("%d-%m-%Y"))
-      with open(backup_browser_file, "w") as bbh:
-        json.dump(browsers, bbh)
       with open(browser_list, "w") as bh:
         browsers[browser_label] = "\"" + browser_file + "\""
         json.dump(browsers, bh)
@@ -83,6 +83,14 @@ def addBrowser(data):
     except Exception as e:
       return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Unknown Error Occured" }
 
+  send_message(json.dumps(return_string))
+
+def resetBrowsers(data):
+  try:
+    copyfile(browser_default, browser_list)
+    return_string = { "response": "SUCCESS" }
+  except Exception as e:
+    return_string = { "ERROR": "Unable to reset", "ErrorMessage": "Unknown Error Occured" }
   send_message(json.dumps(return_string))
 
 def sendBrowserList(data):
@@ -104,7 +112,9 @@ def launchBrowserWithURL(data):
     send_message(json.dumps(error))
   else:
     browser_launch = browsers[browser]
-    cmd = browser_launch + " " + url
+    cmd = browser_launch + " " +  "\"" + url + "\""
+    if sys.platform == "darwin":
+      cmd = "open -a " + cmd
     return_string = { "launch": browser_launch, "url": url }
 
     if not os.path.exists(browser_launch.replace("\"", "")) and browser_launch.find("MicrosoftEdge") == -1: # stupid microsoft edge
@@ -116,7 +126,8 @@ def launchBrowserWithURL(data):
 ACTIONS = {
   "BROWSERS": sendBrowserList,
   "LAUNCH": launchBrowserWithURL,
-  "ADD": addBrowser
+  "ADD": addBrowser,
+  "RESET": resetBrowsers
 }
 
 def Main():

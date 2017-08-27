@@ -1,6 +1,3 @@
 {
-	"Mozilla Firefox": "\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\"",
-	"Microsoft Edge": "start shell:AppsFolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge",
-	"Opera": "\"C:\\Program Files\\Opera\\launcher.exe\"",
-	"test": "none"
+	"Microsoft Edge": "start shell:AppsFolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge"
 }
