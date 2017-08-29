@@ -79,7 +79,7 @@ def addBrowser(data):
       with open(browser_list, "w") as bh:
         browsers[browser_label] = "\"" + browser_file + "\""
         json.dump(browsers, bh)
-      return_string = { "response": "SUCCESS" }
+      return_string = available_browsers()
     except Exception as e:
       return_string = { "ERROR": "Unable to add browser", "ErrorMessage": "Unknown Error Occured" }
 
@@ -88,7 +88,7 @@ def addBrowser(data):
 def resetBrowsers(data):
   try:
     copyfile(browser_default, browser_list)
-    return_string = { "response": "SUCCESS" }
+    return_string = available_browsers()
   except Exception as e:
     return_string = { "ERROR": "Unable to reset", "ErrorMessage": "Unknown Error Occured" }
   send_message(json.dumps(return_string))
@@ -112,9 +112,11 @@ def launchBrowserWithURL(data):
     send_message(json.dumps(error))
   else:
     browser_launch = browsers[browser]
-    cmd = browser_launch + " " +  "\"" + url + "\""
+    cmd = browser_launch
     if sys.platform == "darwin":
       cmd = "open -a " + cmd
+      url = "\"" + url + "\""
+    cmd = cmd + " " + url
     return_string = { "launch": browser_launch, "url": url }
 
     if not os.path.exists(browser_launch.replace("\"", "")) and browser_launch.find("MicrosoftEdge") == -1: # stupid microsoft edge

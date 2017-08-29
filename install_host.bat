@@ -5,4 +5,5 @@
 :: Change HKCU to HKLM if you want to install globally.
 :: %~dp0 is the directory containing this bat script and ends with a backslash.
 REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.stark.second_browser_client" /ve /t REG_SZ /d "%~dp0com.stark.second_browser_client_win.json" /f
-COPY /s/y "browsers-win.json" "browsers.json"
+COPY /y "%~dp0browsers-win.json" "%~dp0browsers.json"
+pause
