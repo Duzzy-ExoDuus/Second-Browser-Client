@@ -8,6 +8,6 @@
   "path": "second_browser_client.bat",
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://bodjmfgbfeabhimckbbbfojeegejhjja/"
+    "chrome-extension://camgemdhfmfogamncjkgddnloggffmbc/"
   ]
 }
