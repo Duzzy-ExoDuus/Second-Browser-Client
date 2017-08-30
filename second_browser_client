@@ -18,7 +18,7 @@ if sys.platform == "win32":
 elif sys.platform == "darwin":
   browser_default = "browsers-osx.json"
 else:
-  browser_default = "browsers-x.json"
+  browser_default = "browsers-lin.json"
 
 browser_list = "browsers.json"
 
