@@ -1,5 +1,5 @@
-#!/bin/sh
-# https://chromium.googlesource.com/chromium/src/+/master/chrome/common/extensions/docs/examples/api/nativeMessaging
+#!/bin/bash
+
 set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
