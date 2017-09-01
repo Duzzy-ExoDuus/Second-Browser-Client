@@ -1,9 +1,9 @@
 # Second-Browser-Client
-Host application for the Second Browser chrome extension
+Client application for the Second Browser chrome extension
 
 Install this client in order to use the Second Browser chrome extension
 
-^Click for video instructions^
+###### Click for video instructions
 [![Install and Walkthrough](https://img.youtube.com/vi/KK-litDDCJ0/0.jpg)](https://www.youtube.com/watch?v=KK-litDDCJ0)
 
 Install
