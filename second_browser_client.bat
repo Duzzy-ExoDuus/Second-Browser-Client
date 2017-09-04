@@ -3,4 +3,4 @@
 :: Use of this source code is governed by a BSD-style license that can be
 :: found in the LICENSE file.
 
-python "%~dp0/second_browser_client" %*
+%~dp0\second_browser_env_win\Scripts\python.exe "%~dp0/second_browser_client" %*
