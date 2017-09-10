@@ -33,9 +33,9 @@ cd ~/Documents/Second-Browser-Client-master
 Adding a browser/application
 ---------
 Right click on the extension icon in chrome and choose options
-Under the Add Browser section,
-In the 'Browser Label' section, type a label for how you want the browser/application to appear. This can be anything.
-In the 'Browser File Location' section, put the full path to the browser/application you want to add.
+ Under the Add Browser section: 
+ In the 'Browser Label' section, type a label for how you want the browser/application to appear. This can be anything. 
+ In the 'Browser File Location' section, put the full path to the browser/application you want to add.
 ##### Windows Example #####
 ~~~
 Browser Label: Mozilla Firefox
