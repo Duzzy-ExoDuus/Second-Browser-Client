@@ -37,14 +37,20 @@ Under the Add Browser section,
 In the 'Browser Label' section, type a label for how you want the browser/application to appear. This can be anything.
 In the 'Browser File Location' section, put the full path to the browser/application you want to add.
 ##### Windows Example #####
+~~~
 Browser Label: Mozilla Firefox
 Browser File Location: "C:\Program Files\Mozilla Firefox\firefox.exe"
+~~~
 ##### Linux Example #####
+~~~
 Browser Label: Mozilla Firefox
 Browser File Location: /usr/bin/firefox
+~~~
 ##### Mac Example #####
+~~~
 Browser Label: Mozilla Firefox
 Browser File Location: /Applications/Firefox.app/Contents/MacOS/firefox
+~~~
 
 Uninstall
 ---------
