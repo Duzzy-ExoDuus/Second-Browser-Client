@@ -8,7 +8,7 @@ Extension Link
 https://chrome.google.com/webstore/detail/second-browser/camgemdhfmfogamncjkgddnloggffmbc
 
 ###### Click for video instructions
-[![Install and Walkthrough](https://img.youtube.com/vi/KK-litDDCJ0/0.jpg)](https://www.youtube.com/watch?v=KK-litDDCJ0)
+[![Install and Walkthrough](https://img.youtube.com/vi/TbZYkW8Nys4/0.jpg)](https://www.youtube.com/watch?v=TbZYkW8Nys4)
 
 ##### Note: the master branch includes a portable version of python2.7 for windows
 If you don't want to download this portable version of python, use the no-python branch instead of master
