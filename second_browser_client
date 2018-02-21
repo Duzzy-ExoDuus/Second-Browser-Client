@@ -21,13 +21,19 @@ else:
   browser_default = "browsers-lin.json"
 
 browser_list = "browsers.json"
-
+log_file = "client_log"
 # helper to return configured browsers
+
+def log_message(message):
+  with open(log_file, "a") as lf:
+    lf.write(message + "\n")
+
 def available_browsers():
   try:
     text = open(browser_list).read()
     jdata = json.loads(text)
   except Exception as e:
+    log_message("unable to open browsers.json")
     jdata = { "ERROR": "unable to open browsers.json" }
   return jdata
 
@@ -36,6 +42,8 @@ def send_message(message):
    # Write message size.
   sys.stdout.write(struct.pack('I', len(message)))
   # Write the message itself.
+
+  log_message("Sending message to extension: " + message)
   sys.stdout.write(message)
   sys.stdout.flush()
 
@@ -53,6 +61,9 @@ def receive_message():
 
     # Read the text (JSON object) of the message.
     text = sys.stdin.read(text_length).decode('utf-8')
+
+    log_message("Received message from extension:" + text)
+
     jdata = json.loads(text)
 
     ACTIONS[jdata["request"]](jdata["data"])
@@ -137,4 +148,7 @@ def Main():
   sys.exit(0)
 
 if __name__ == '__main__':
+  if not os.path.exists(log_file):
+    with open(log_file, "w") as cl:
+      cl.write("creating log file for " + sys.platform + "...\n")
   Main()
